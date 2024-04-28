@@ -1,87 +1,100 @@
 package package1;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URL;
 
 public class Java1 extends JFrame implements ActionListener {
 
-    //JFrame consist in the SWING
-    Java1(){
-
-//        Set the size and the location of the frame
+    Java1() {
+        // Set the size and the location of the frame
         setSize(1300, 750);
-        setVisible(true);
-        setLocation(0,0);
-//        set the color of the frame
-        getContentPane().setBackground(Color.WHITE); // Color class in consist in the AWT
+        setLocation(0, 0);
+        // Set the color of the frame
+        // getContentPane().setBackground(Color.BLUE); // Color class in consist in the AWT
 
-        //We use layout to place the item in specific location
-        // not use the swing layout
+        // We use layout to place the item in a specific location
+        // Not using the Swing layout
         setLayout(null);
 
-//        To write some thing we use JLabel
+        // To write something we use JLabel
         JLabel heading = new JLabel("EMPLOYEE MANAGEMENT SYSTEM");
         add(heading);
-        //set the place of the heading or JLabel
-        heading.setBounds(8,3, 1200,60);
-        heading.setFont(new Font("serif",Font.PLAIN,60));
+        // Set the place of the heading or JLabel
+        heading.setBounds(8, 3, 1200, 60);
+        heading.setFont(new Font("serif", Font.PLAIN, 60));
         heading.setForeground(Color.BLUE);
 
+        // Load the image
+        try {
+            // URL of the image online
+            URL imageUrl = new URL("https://www.pngitem.com/pimgs/m/523-5233379_employee-management-system-logo-hd-png-download.png");
 
-        // Create an ImageIcon from an image file
-        ImageIcon icon = new ImageIcon("front.jpg");
-        // Get the image from the ImageIcon
-        Image image = icon.getImage();
-        // Create a scaled instance of the image to fit the JLabel
-        Image scaledImage = image.getScaledInstance(1100, 600, Image.SCALE_SMOOTH);
-        // Create a new ImageIcon from the scaled image
-        ImageIcon scaledIcon = new ImageIcon(scaledImage);
-        // Create a JLabel with the scaled ImageIcon
-        JLabel label = new JLabel(scaledIcon);
-        label.setBounds(100,80, 1100, 600);
-        add(label);
-        label.setVisible(true);
-//
-//      Adds of the button in the class
+            // Read the image from the URL
+            Image image = ImageIO.read(imageUrl);
+
+            // Create a scaled instance of the image
+            Image scaledImage = image.getScaledInstance(1100, 600, Image.SCALE_SMOOTH);
+
+            // Create a JLabel with the scaled ImageIcon
+            JLabel label = new JLabel(new ImageIcon(scaledImage));
+
+            // Set bounds for the label
+            label.setBounds(100, 100, 1100, 600);
+
+            // Add the label to the frame
+            add(label);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the error, e.g., display an error message
+        }
+
+        // Adds of the button in the class
         JButton ClickHere = new JButton("Click Here to Continue");
-        ClickHere.setBounds(400,400,300,70);
+        ClickHere.setBounds(400, 400, 300, 70);
         ClickHere.setBackground(Color.BLACK);
         ClickHere.setForeground(Color.WHITE);
-        //*/*/*/*/****/*/*/*//**/*//*/ Add of the event Listennor
+        // Add of the event Listener
         ClickHere.addActionListener(this);
-        label.add(ClickHere);
+        // Add the button to the frame, not the label
+        add(ClickHere);
 
         // show dipper effect in the heading
-        while(true){
-            heading.setVisible(false);
-
-            try{
-                Thread.sleep(500);
-            }catch (Exception e){
-
+        new Thread(() -> {
+            while (true) {
+                heading.setVisible(false);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                heading.setVisible(true);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-            heading.setVisible(true);
+        }).start();
 
-            try{
-                Thread.sleep(500);
-            }catch (Exception e){
-
-            }
-        }
+        // Set the frame visible after adding components
+        setVisible(true);
     }
 
     public static void main(String[] args) {
-//        We create a Construction to direct invoke
+        // We create a Construction to directly invoke
         new Java1();
-
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         setVisible(false);
+        // Assuming Login is another class in your package
         Login L1 = new Login();
     }
 }
-
